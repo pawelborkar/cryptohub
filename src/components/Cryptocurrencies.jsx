@@ -3,6 +3,7 @@ import millify from "millify";
 import { Card, Row, Col, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useGetCryptosQuery } from "../services/cryptoApi";
+import Loader from "./Loader";
 
 const Cryptocurrencies = ({ simplified }) => {
     const count = simplified ? 10 : 100;
@@ -11,20 +12,21 @@ const Cryptocurrencies = ({ simplified }) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
-        const filteredData = cryptosList?.data?.coins.filter((coin) =>
-            coin.name.toLowerCase().includes(searchTerm.toLowerCase())
+        setCryptos(cryptosList?.data?.coins);
+        const filteredData = cryptosList?.data?.coins.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
         setCryptos(filteredData);
     }, [cryptosList, searchTerm]);
 
-    if (isFetching) return "Loading ...";
+    if (isFetching) return <Loader />;
     return (
         <>
             {!simplified && (
                 <div className="search-crypto">
                     <Input
-                        placeholder="Search Cryptocurrencie"
+                        placeholder="Search Cryptocurrency"
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
@@ -38,8 +40,16 @@ const Cryptocurrencies = ({ simplified }) => {
                         key={currency.uuid}
                         className="crypto-card"
                     >
-                        <Link to={`/crypto/${currency.id}`}>
+                        <Link
+                            key={currency.uuid}
+                            to={`/crypto/${currency.uuid}`}
+                        >
                             <Card
+                                style={{
+                                    backgroundColor:'#fff',
+                                    
+                                    
+                                }}
                                 title={`${currency.rank}. ${currency.name}`}
                                 extra={
                                     <img
@@ -51,9 +61,11 @@ const Cryptocurrencies = ({ simplified }) => {
                                 hoverable
                             >
                                 <p>Price: $ {millify(currency.price)}</p>
+                                <p>Symbol: {currency.symbol}</p>
                                 <p>
                                     Market Cap: ${millify(currency.marketCap)}
                                 </p>
+                                <p>Total Supply Amount: {currency.supply}</p>
                                 <p>Daily Change: {millify(currency.change)}%</p>
                             </Card>
                         </Link>
