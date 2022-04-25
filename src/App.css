@@ -19,7 +19,6 @@ a:hover {
 
 .app {
     display: flex;
-    overflow: hidden;
     height: 100vh;
 }
 
@@ -94,10 +93,9 @@ a:hover {
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 830px) {
     .app {
         flex-direction: column;
-        overflow: hidden;
     }
 
     .navbar {
@@ -289,6 +287,13 @@ a:hover {
 @media screen and (max-width: 500px) {
     .heading {
         margin-top: 20px;
+    }
+    .home-title {
+        font-size: 1.2rem !important;
+        text-align: center;
+    }
+    .show-more {
+        font-size: 0.9rem !important;
     }
 }
 
